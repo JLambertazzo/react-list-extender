@@ -1,13 +1,12 @@
-import logo from './logo.svg';
 import ListExtender from './ListExtender'
-import './App.css';
+import './App.css'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <ListExtender listContents={[1, 2, 3]}/>
+    <div className='App'>
+      <ListExtender listContents={[1, 2, 3]} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
