@@ -21,7 +21,7 @@ export default function ListExtender (props) {
   const toInput = (item, index) => {
     const newListContents = [...listContents]
     if (item.type !== 'input') {
-      const input = <input type='text' value={item} onChange={(event) => updateItem(index, event)} ref={(input) => setFocusEl(input)} />
+      const input = <input type={props.type} value={item} onChange={(event) => updateItem(index, event)} ref={(input) => setFocusEl(input)} />
       newListContents[index] = input
     }
     setListContents(newListContents)
