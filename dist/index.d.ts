@@ -1,6 +1,9 @@
 /// <reference types="react" />
 interface Props {
-    text?: string;
+    placeholder?: string;
+    validators?: [(value: string, index?: number, list?: {
+        [key: number]: string;
+    }) => boolean];
 }
-export declare const ExampleComponent: ({}: Props) => JSX.Element;
-export {};
+export declare const ListExtender: ({ placeholder, validators }: Props) => JSX.Element;
+export default ListExtender;

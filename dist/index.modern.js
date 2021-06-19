@@ -1,20 +1,50 @@
 import React, { useState, useEffect } from 'react';
 
-const ExampleComponent = ({}) => {
-  const [list, setList] = useState([]);
-  const [isInput, setIsInput] = useState({
-    0: true,
-    1: false
-  });
+const ListExtender = ({
+  placeholder,
+  validators
+}) => {
+  const [list, setList] = useState({});
+  const [isInput, setIsInput] = useState({});
   useEffect(() => {
-    setList({
-      0: "hello",
-      1: "world"
+    let addInput = true;
+    Object.keys(list).forEach(key => {
+      if (!list[key].trim() || !validate(list[key], parseInt(key))) {
+        addInput = false;
+      }
     });
-  }, []);
+
+    if (addInput) {
+      setList(prevList => {
+        const newList = { ...prevList
+        };
+        newList[Object.keys(newList).length] = "";
+        return newList;
+      });
+      setIsInput(prevInput => {
+        const newIsInput = { ...prevInput
+        };
+        newIsInput[Object.keys(newIsInput).length] = true;
+        return newIsInput;
+      });
+    }
+  }, [list]);
+
+  const validate = (value, index) => {
+    if (!validators) {
+      return true;
+    }
+
+    for (let validator of validators) {
+      if (!validator(value, index, list)) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   const setListText = (index, value) => {
-    console.log(index, value);
     setList(prevList => {
       const newList = { ...prevList
       };
@@ -25,6 +55,10 @@ const ExampleComponent = ({}) => {
   };
 
   const toggleInput = index => {
+    if (isInput[index] && !list[index].trim()) {
+      return;
+    }
+
     setIsInput(prevInput => {
       const newList = { ...prevInput
       };
@@ -38,9 +72,9 @@ const ExampleComponent = ({}) => {
       return React.createElement("li", null, React.createElement("input", {
         key: index,
         value: list[key],
+        placeholder: placeholder,
         onChange: e => setListText(index, e.target.value),
-        onBlur: () => toggleInput(index),
-        autoFocus: true
+        onBlur: () => toggleInput(index)
       }));
     } else {
       return React.createElement("li", {
@@ -51,5 +85,6 @@ const ExampleComponent = ({}) => {
   }));
 };
 
-export { ExampleComponent };
+export default ListExtender;
+export { ListExtender };
 //# sourceMappingURL=index.modern.js.map

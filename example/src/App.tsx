@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 
-import { ExampleComponent } from 'react-list-extender'
-import 'react-list-extender/dist/index.css'
+import ListExtender from "react-list-extender";
+import "react-list-extender/dist/index.css";
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
-}
+  return <ListExtender placeholder="Enter Text Here" />;
+};
 
-export default App
+export default App;

@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from "react";
 
 interface Props {
-  text?: string;
+  placeholder?: string;
+  validators?: [
+    (value: string, index?: number, list?: { [key: number]: string }) => boolean
+  ];
 }
 
-export const ExampleComponent = ({}: Props) => {
-  const [list, setList] = useState<{ [key: number]: string }>([]);
-  const [isInput, setIsInput] = useState<{ [key: number]: boolean }>({
-    0: true,
-    1: false,
-  });
+export const ListExtender = ({ placeholder, validators }: Props) => {
+  const [list, setList] = useState<{ [key: number]: string }>({});
+  const [isInput, setIsInput] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
-    setList({
-      0: "hello",
-      1: "world",
+    let addInput = true;
+    Object.keys(list).forEach((key) => {
+      if (!list[key].trim() || !validate(list[key], parseInt(key))) {
+        addInput = false;
+      }
     });
-  }, []);
+    if (addInput) {
+      setList((prevList) => {
+        const newList = { ...prevList };
+        newList[Object.keys(newList).length] = "";
+        return newList;
+      });
+      setIsInput((prevInput) => {
+        const newIsInput = { ...prevInput };
+        newIsInput[Object.keys(newIsInput).length] = true;
+        return newIsInput;
+      });
+    }
+  }, [list]);
+
+  const validate = (value: string, index?: number) => {
+    if (!validators) {
+      return true;
+    }
+    for (let validator of validators) {
+      if (!validator(value, index, list)) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const setListText = (index: number, value: string) => {
-    console.log(index, value);
     setList((prevList) => {
       const newList = { ...prevList };
       newList[index] = value;
@@ -29,6 +54,9 @@ export const ExampleComponent = ({}: Props) => {
   };
 
   const toggleInput = (index: number) => {
+    if (isInput[index] && !list[index].trim()) {
+      return;
+    }
     setIsInput((prevInput) => {
       const newList = { ...prevInput };
       newList[index] = !newList[index];
@@ -45,9 +73,9 @@ export const ExampleComponent = ({}: Props) => {
               <input
                 key={index}
                 value={list[key]}
+                placeholder={placeholder}
                 onChange={(e) => setListText(index, e.target.value)}
                 onBlur={() => toggleInput(index)}
-                autoFocus
               />
             </li>
           );
@@ -62,3 +90,5 @@ export const ExampleComponent = ({}: Props) => {
     </ul>
   );
 };
+
+export default ListExtender;
