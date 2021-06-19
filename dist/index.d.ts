@@ -1,6 +1,6 @@
 /// <reference types="react" />
 interface Props {
-    text: string;
+    text?: string;
 }
-export declare const ExampleComponent: ({ text }: Props) => JSX.Element;
+export declare const ExampleComponent: ({}: Props) => JSX.Element;
 export {};
