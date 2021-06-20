@@ -49,7 +49,6 @@ const ListExtender = ({
       const newList = { ...prevList
       };
       newList[index] = value;
-      console.log(newList);
       return newList;
     });
   };
@@ -74,7 +73,8 @@ const ListExtender = ({
         value: list[key],
         placeholder: placeholder,
         onChange: e => setListText(index, e.target.value),
-        onBlur: () => toggleInput(index)
+        onBlur: () => toggleInput(index),
+        autoFocus: index !== Object.keys(list).length - 1
       }));
     } else {
       return React.createElement("li", {

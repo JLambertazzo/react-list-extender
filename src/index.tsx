@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 
-interface Props {
+interface ListExtenderProps {
   placeholder?: string;
   validators?: [
     (value: string, index?: number, list?: { [key: number]: string }) => boolean
   ];
 }
 
-export const ListExtender = ({ placeholder, validators }: Props) => {
+export const ListExtender = ({
+  placeholder,
+  validators,
+}: ListExtenderProps) => {
   const [list, setList] = useState<{ [key: number]: string }>({});
   const [isInput, setIsInput] = useState<{ [key: number]: boolean }>({});
 
+  // on list changed
   useEffect(() => {
     let addInput = true;
     Object.keys(list).forEach((key) => {
@@ -32,6 +36,7 @@ export const ListExtender = ({ placeholder, validators }: Props) => {
     }
   }, [list]);
 
+  // check if all validations pass
   const validate = (value: string, index?: number) => {
     if (!validators) {
       return true;
@@ -44,15 +49,16 @@ export const ListExtender = ({ placeholder, validators }: Props) => {
     return true;
   };
 
+  // change the text of an element
   const setListText = (index: number, value: string) => {
     setList((prevList) => {
       const newList = { ...prevList };
       newList[index] = value;
-      console.log(newList);
       return newList;
     });
   };
 
+  // change whether el is input or text
   const toggleInput = (index: number) => {
     if (isInput[index] && !list[index].trim()) {
       return;
@@ -76,6 +82,7 @@ export const ListExtender = ({ placeholder, validators }: Props) => {
                 placeholder={placeholder}
                 onChange={(e) => setListText(index, e.target.value)}
                 onBlur={() => toggleInput(index)}
+                autoFocus={index !== Object.keys(list).length - 1}
               />
             </li>
           );

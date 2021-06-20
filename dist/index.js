@@ -116,7 +116,6 @@ var ListExtender = function ListExtender(_ref) {
       var newList = _extends({}, prevList);
 
       newList[index] = value;
-      console.log(newList);
       return newList;
     });
   };
@@ -145,7 +144,8 @@ var ListExtender = function ListExtender(_ref) {
         },
         onBlur: function onBlur() {
           return toggleInput(index);
-        }
+        },
+        autoFocus: index !== Object.keys(list).length - 1
       }));
     } else {
       return React__default.createElement("li", {
