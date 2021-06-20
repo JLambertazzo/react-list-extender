@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
 const ListExtender = ({
-  placeholder,
-  validators
+  placeholder: _placeholder = '',
+  validators,
+  values: _values = []
 }) => {
-  const [list, setList] = useState({});
-  const [isInput, setIsInput] = useState({});
+  const listObj = {};
+  const inputObj = {};
+
+  for (let i = 0; i < _values.length; i++) {
+    listObj[i] = _values[i];
+    inputObj[i] = false;
+  }
+
+  const [list, setList] = useState(listObj);
+  const [isInput, setIsInput] = useState(inputObj);
   useEffect(() => {
     let addInput = true;
     Object.keys(list).forEach(key => {
@@ -71,7 +80,7 @@ const ListExtender = ({
       return React.createElement("li", null, React.createElement("input", {
         key: index,
         value: list[key],
-        placeholder: placeholder,
+        placeholder: _placeholder,
         onChange: e => setListText(index, e.target.value),
         onBlur: () => toggleInput(index),
         autoFocus: index !== Object.keys(list).length - 1

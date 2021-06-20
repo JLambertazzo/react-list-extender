@@ -60,14 +60,24 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
 }
 
 var ListExtender = function ListExtender(_ref) {
-  var placeholder = _ref.placeholder,
-      validators = _ref.validators;
+  var _ref$placeholder = _ref.placeholder,
+      placeholder = _ref$placeholder === void 0 ? '' : _ref$placeholder,
+      validators = _ref.validators,
+      _ref$values = _ref.values,
+      values = _ref$values === void 0 ? [] : _ref$values;
+  var listObj = {};
+  var inputObj = {};
 
-  var _useState = React.useState({}),
+  for (var i = 0; i < values.length; i++) {
+    listObj[i] = values[i];
+    inputObj[i] = false;
+  }
+
+  var _useState = React.useState(listObj),
       list = _useState[0],
       setList = _useState[1];
 
-  var _useState2 = React.useState({}),
+  var _useState2 = React.useState(inputObj),
       isInput = _useState2[0],
       setIsInput = _useState2[1];
 

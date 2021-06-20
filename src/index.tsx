@@ -5,14 +5,22 @@ interface ListExtenderProps {
   validators?: [
     (value: string, index?: number, list?: { [key: number]: string }) => boolean
   ];
+  values?: string[];
 }
 
 export const ListExtender = ({
-  placeholder,
+  placeholder = '',
   validators,
+  values = [],
 }: ListExtenderProps) => {
-  const [list, setList] = useState<{ [key: number]: string }>({});
-  const [isInput, setIsInput] = useState<{ [key: number]: boolean }>({});
+  const listObj: {[key: number]: string} = {}
+  const inputObj: {[key: number]: boolean} = {}
+  for (let i = 0; i < values.length; i++) {
+    listObj[i] = values[i]
+    inputObj[i] = false
+  }
+  const [list, setList] = useState<{ [key: number]: string }>(listObj);
+  const [isInput, setIsInput] = useState<{ [key: number]: boolean }>(inputObj);
 
   // on list changed
   useEffect(() => {

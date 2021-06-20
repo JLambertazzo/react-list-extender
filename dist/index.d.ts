@@ -4,6 +4,7 @@ interface ListExtenderProps {
     validators?: [(value: string, index?: number, list?: {
         [key: number]: string;
     }) => boolean];
+    values?: string[];
 }
-export declare const ListExtender: ({ placeholder, validators, }: ListExtenderProps) => JSX.Element;
+export declare const ListExtender: ({ placeholder, validators, values, }: ListExtenderProps) => JSX.Element;
 export default ListExtender;
